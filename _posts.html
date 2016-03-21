@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
+
+</head>
+
+
+<body ng-app="app">
+
+<div ng-controller="PostsCtrl" class="container">
+
+    <h1>Recent Posts</h1>
+    <form role="form">
+        <div class="form-group">
+
+            <div class="input-group">
+
+                <input ng-model="postBody" class="form-control" />
+
+                <span class="input-group-btn">
+                    <button ng-click="addPost()" class="btn btn-default">Add Post</button>
+                </span>
+
+            </div>
+
+        </div>
+    </form>
+
+    <ul class="list-group">
+        <li ng-repeat="post in posts" class="list-group-item">
+
+            <strong>@{{post.username}} :</strong> <span>{{ post.body }}</span>
+
+        </li>
+    </ul>
+
+    <div class="container" ng-bind="postBody"> </div>
+
+</div>
+
+<script src="bower_components/angular/angular.js"></script>
+
+<script>
+    var app = angular.module('app', []);
+    app.controller('PostsCtrl', function ($scope, $http) {
+
+        $scope.addPost = function(){
+
+            if($scope.postBody){
+
+                $scope.posts.unshift({
+                    username: 'Mookers',
+                    body: $scope.postBody
+                });
+
+                $scope.postBody = null;
+            }
+        };
+
+
+        $http.get('http://localhost:3000/api/posts')
+                .success(function (posts) {
+                    $scope.posts = _posts
+                });
+
+
+
+
+//        $scope.posts = [
+//            {
+//                username: "Kooster",
+//                body: "Bones Rule"
+//            },
+//            {
+//                username: "Nibs",
+//                body: "Biting Rules"
+//            },
+//            {
+//                username: "Barn",
+//                body: "stiff leggin"
+//            }
+//        ]
+
+
+
+    })
+</script>
+
+
+</body>
+</html>

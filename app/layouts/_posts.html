@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+
+    <!--<link rel="stylesheet" href="../../bower_components/bootstrap/dist/css/bootstrap.css">-->
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+</head>
+
+
+<body ng-app="app">
+
+<div ng-controller="PostsCtrl" class="container">
+
+    <h1>Recent Posts - /Layouts</h1>
+    <form role="form">
+        <div class="form-group">
+
+            <div class="input-group">
+
+                <input ng-model="postBody" class="form-control" />
+
+                <span class="input-group-btn">
+                    <button ng-click="addPost()" class="btn btn-default">Add Post</button>
+                </span>
+
+            </div>
+
+        </div>
+    </form>
+
+    <ul class="list-group">
+
+        <li ng-repeat="post in posts | orderBy: '-date'" class="list-group-item">
+
+            <strong>@{{post.username}} :</strong> <span>{{ post.body }}</span>
+
+        </li>
+    </ul>
+
+    <div class="container" ng-bind="postBody"> </div>
+
+</div>
+
+<!--<script src="../../bower_components/angular/angular.js"></script>-->
+
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
+
+<script>
+
+    var app = angular.module('app', []);
+    app.controller('PostsCtrl', function ($scope, $http) {
+
+        $scope.addPost = function(){
+
+            if($scope.postBody){                //postBody is the value of the input field
+
+                $http.post('/api/posts', {      //  $http request to ENDPOINT  --  To Node API
+                                                //  post(1,2)   1.  /api/post/ endpoint Node API, 2.  OBJECT to post
+                                                //  CREATE OBJECT:
+
+                    username:  'Mookers',
+                    body: $scope.postBody
+                })
+
+                .success(function(post) {                    //  $http RETURNS A PROMISE OBJECT !!!!
+
+                            $scope.posts.unshift(post);     //  if creating new OBJECT is success -> Add object to [posts] ARRAY
+                                                            //  array.unshift() --  add new items to the beginning of an array
+                                                            //  Angular is managing the ARRAY !!!  as part of $scope
+
+                            $scope.postBody = null;          //  set postBody value to NULL
+                });
+
+//                $scope.posts.unshift({
+//                    username: 'Mookers',
+//                    body: $scope.postBody
+//                });
+
+                $scope.postBody = null;
+            }
+        };
+
+
+        $http.get('http://localhost:3000/api/posts')        //  Get [posts] ARRAY  (this code replaces the [post] ARRAY below
+                .success(function (posts) {                 //  $http returns a PROMISE OBJECT
+                    $scope.posts = _posts
+                });
+
+
+//        $scope.posts = [
+//            {
+//                username: "Kooster",
+//                body: "Bones Rule"
+//            },
+//            {
+//                username: "Nibs",
+//                body: "Biting Rules"
+//            },
+//            {
+//                username: "Barn",
+//                body: "stiff leggin"
+//            }
+//        ]
+
+
+
+    })
+</script>
+
+
+</body>
+</html>
