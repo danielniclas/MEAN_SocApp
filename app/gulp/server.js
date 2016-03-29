@@ -15,7 +15,7 @@ gulp.task('dev:server', function() {      //  task(1,2)  1.  name of task  2.  f
 
     nodemon({
 
-        script:  'server.js',
+        script:  'server.js',       //  <<  gulp dev:server BOOTS up app by running THIS SCRIPT
         ext: 'js',
         ignore: ['ng*', 'gulp*', 'assets*']   //  IGNORE:  ng files, gulp files and assets files
 
