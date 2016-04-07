@@ -33,6 +33,7 @@
     var app = angular.module('app', []);
 
     app.controller('PostsCtrl', function ($scope) {
+
         $scope.addPost = function () {
             if ($scope.postBody) {              //  if $scope.postBody bound by ng-model
                 $scope.posts.unshift({          //  adds a new item to array at the beginning
@@ -40,6 +41,7 @@
                     body: $scope.postBody
                 })
             }
+            $scope.postBody = null;         //  <<  Clear the Input Field
         };
         $scope.posts = [                    //  posts array that new post is added to
             {
