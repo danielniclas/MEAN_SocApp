@@ -32,7 +32,7 @@
 <script>
     var app = angular.module('app', []);
 
-    app.controller('PostsCtrl', function ($scope) {
+    app.controller('PostsCtrl', function ($scope, $http) {
 
         $scope.addPost = function () {
             if ($scope.postBody) {              //  if $scope.postBody bound by ng-model
@@ -43,6 +43,7 @@
             }
             $scope.postBody = null;         //  <<  Clear the Input Field
         };
+
         $scope.posts = [                    //  posts array that new post is added to
             {
                 username: 'dickeyxxx',
@@ -52,7 +53,16 @@
                 username: 'jeffdickey',
                 body: 'been trying out angular.js...'
             }
-        ]
+        ];
+
+
+        $http.get('http://localhost:3000/api/posts')    //  READING POSTS FROM THE EXPRESS API
+                .success(function(posts){               // Wont work due to CORS
+                    $scope._posts = posts;
+                })
+
+
+
     })
 </script>
 </body>

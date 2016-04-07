@@ -21,78 +21,70 @@
 
 
     <ul class='list-group'>
-        <li ng-repeat="post in posts | orderBy: '-date'" class='list-group-item'>
+        <li ng-repeat='post in posts' class='list-group-item'>
             <strong>@{{ post.username }}</strong> <span>{{ post.body }}</span>
         </li>
     </ul>
-
 </div>
 <script src='http://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-rc.4/angular.js'></script>
 
 
-<script type="text/javascript">
+<script>
     var app = angular.module('app', []);
 
-    //  Integrate Angular with a NODE/EXPRESS API:
-    app.factory('PostsSvc', function($http){
-        return {                                //  Factory RETURNS an OBJECT with one METHOD: fetch() METHOD
-            fetchPost: function (){
-                return $http.get('api/posts');   //  Like using Postman:  get(Path to Model)
-            },                                   //  returning the $http.get(1) service : replace fetchPost() >>  $http.get('api/posts')
+    app.controller('PostsCtrl', function ($scope, $http) {
 
-            createPost: function (post) {
-                return $http.post('/api/posts', post);  //  Like using Postman:  post(Path to Model, {post})
-            }                                           //  returning the $http.post(1,2) service : replace createPost() >>  $http.post('/api/posts', post)
-        }
-    });
+        //  Step 1:  No API
 
-    app.controller('PostsCtrl', function ($scope, PostsSvc) {
-
-        //  Create [posts] ARRAY by pulling DATA from MONGO
-        //  $http.get(1)  This GET request will request DATA from the URL: http://localhost:3000/api/posts
-        //  This URL is one of the Express ENDPOINTS >>  app.get('/api/posts', 2)
-        //  This Express ENDPOINT will respond with the ARRAY OF OBJECTS  stored in MONGO
-
-        PostsSvc.fetchPost()                    //  replace fetchPost() >>  $http.get('api/posts')
-                .success(function(posts){       //  Angular uses PROMISES --  No callback here
-                    $scope.posts = posts;       //  [posts] array comes from the API via $http - using the fetch() function from the factory (above)
-                });
-
-
-//        $http.get('http://localhost:3000/api/posts')     //  Like using Postman:  get(Path to Model)
-//                .success(function(posts){                //  Angular uses PROMISES --  No callback here
-//                    $scope.posts = posts;                //  [posts] array comes from the API via $http
-//                });
-
-
-        //  SEND POST TO SERVER, and if it response with a success status code, unshift() new post onto $scope.posts
-        //  $http.post(1,2)  1.  URL >>  Express POST ENDPOINT  2.  {DATA} Object to add to MONGO
-
-        $scope.addPost = function () {          //  addPost METHOD >>  button ng-click='addPost()'
-            if ($scope.postBody) {              //  if ($scope.postBody) bound by ng-model == true
-
-                PostsSvc.createPost({           //  Use PostsSVC.createPost() METHOD from FACTORY (above)
-                    username: 'Nibbersons',     //  <<  Pass in the {post} OBJECT
+        $scope._addPost = function () {
+            if ($scope.postBody) {              //  if $scope.postBody bound by ng-model
+                $scope.posts.unshift({          //  adds a new item to array at the beginning
+                    username: 'dickeyxxx',
                     body: $scope.postBody
                 })
-                        .success(function(post){         //  If posting to MONGO is a success >> ALSO add DATA to ARRAY
-                            $scope.posts.unshift(post);  //  UPDATE $scope STATE >> adds a new item to array at the beginning
-                            $scope.postBody = null
-                        });
+            }
+            $scope.postBody = null;         //  <<  Clear the Input Field
+        };
 
-//                $http.post('api/posts', {
-//                    username: 'Nibbersons',
-//                    body: $scope.postBody
-//                })
-//                        .success(function(post){         //  If posting to MONGO is a success >> ALSO add DATA to ARRAY
-//                            $scope.posts.unshift(post);  //  UPDATE $scope STATE >> adds a new item to array at the beginning
-//                            $scope.postBody = null
-//                        });
+        //  Step 2:  With API
+
+        $scope.addPost = function () {
+            if ($scope.postBody) {
+                $http.post('http://localhost:3000/api/posts',       //  Send post to the server
+                        {username: 'Nibblet',
+                        body: $scope.postBody}
+                ).success(function (post) {          //  If server responds with success status code, unshift new post onto $scope.posts
+                            $scope.posts.unshift(post);
+                            $scope.postBody = null
+                        })
             }
         };
+
+
+
+        //  Step 1:  No API
+
+        $scope._posts = [                    //  posts array that new post is added to
+            {
+                username: 'dickeyxxx',
+                body: 'Node rules!'
+            },
+            {
+                username: 'jeffdickey',
+                body: 'been trying out angular.js...'
+            }
+        ];
+
+        //  Step 2:  With API
+
+        $http.get('http://localhost:3000/api/posts')    //  READING POSTS FROM THE EXPRESS API
+                .success(function(posts){               // Wont work due to CORS
+                    $scope.posts = posts;
+                })
+
+
+
     })
-
-
 </script>
 </body>
 </html>
