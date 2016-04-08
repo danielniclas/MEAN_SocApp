@@ -38,24 +38,26 @@ app.post('/user', function(req, res, next){
 //  To create a user with CURL:
 //  > curl -X POST -d '{"username": "Kooster", "password": "pass"}' -H "Content-Type: application/json" localhost:3000/user
 
+//  > curl -X POST -d '{"username": "Mookors", "password": "sass"}' -H "Content-Type: application/json" localhost:3000/user
+
 
 
 app.post('/session', function(req, res, next){
 
-    User.find({username: req.body.username}, function (err, user){           //  session is now looking into MONGO  User.findOne()
-
-        res.send("/SESSION USER:  " + user);
+    User.findOne({username: req.body.username}, function (err, user){           //  session is now looking into MONGO  User.findOne()
 
 
-        //if (err) {return next(err)}
-        //if (!user) {return res.send(401)}
+        if (err) {return next(err)}
+        if (!user) {return res.send(401)}
+        //res.send("/SESSION USER:  " + user.password);
 
-        //bcrypt.compare(req.body.password, user.password, function(err,valid){
-        //    if (err){return next(err)}
-        //    if(!valid){return res.send(401)}
-        //    var token = jwt.encode({username: user.username}, secretKey);
-        //    res.json(token)
-        //})
+
+        bcrypt.compare(req.body.password, user.password, function(err,valid){
+            if (err){return next(err)}
+            if(!valid){return res.send(401)}
+            var token = jwt.encode({username: user.username}, secretKey);
+            res.json(token)
+        })
     })
 });
 
@@ -63,6 +65,8 @@ app.post('/session', function(req, res, next){
 //  SESSION:
 //  > curl -X POST -d '{"username": "Kooster", "password":"pass"}' -H "Content-Type:  application/json" localhost:3000/session
 //  Get this JWT:  eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6Iktvb3N0ZXIifQ.JdG-TLrzlK0zhBSce_kOLRoOFeRLqxovzpmZNUddc9M
+
+//  > curl -X POST -d '{"username": "Mookors", "password":"sass"}' -H "Content-Type:  application/json" localhost:3000/session
 
 
 
