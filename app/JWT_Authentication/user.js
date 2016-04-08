@@ -7,7 +7,7 @@ var mongoose = require('mongoose');
 
 mongoose.connect('mongodb://localhost/auth_demo', function () {
 
-    console.log("MongoDB AUTH_DEMO DB connected")
+    console.log("MongoDB JWT AUTH_DEMO DB connected")
 
 });
 

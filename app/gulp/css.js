@@ -5,7 +5,7 @@
 
 var gulp = require('gulp');
 
-var stylus = require('gulp-stylus');
+var stylus = require('gulp-stylus');            //  Stylus CSS pre-processor
 
 
 gulp.task('css', function() {
@@ -21,3 +21,10 @@ gulp.task('watch:css', ['css'], function () {    //  task(1,2,3)  1.  name  2.  
     gulp.watch('css/**/*.styl', ['css'])
 
 });
+
+
+//  PROCESSES -- INSTRUCTIONS:
+
+//  Run:  gulp css
+
+//  Run:  gulp watch:css

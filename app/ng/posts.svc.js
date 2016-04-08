@@ -3,12 +3,12 @@
  */
 
 
-angular.module('app')
+angular.module('app');      //  GETTER MODULE
 
 
 //  Service:
 
-.service('PostsSvc', function ($http) {
+app.service('PostsSvc', function ($http) {
 
     this.fetch = function () {
         return $http.get('api/posts');                 //  $http.get() SERVICE  -- returns a PROMISE

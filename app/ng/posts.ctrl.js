@@ -2,9 +2,9 @@
  * Created by danielniclas on 1/4/16.
  */
 
-angular.module('app')
+angular.module('app');          //  GETTER MODULE
 
-.controller('PostsCtrl', function ($scope, PostsSvc) {
+app.controller('PostsCtrl', function ($scope, PostsSvc) {
 
     $scope.addPost = function(){
 

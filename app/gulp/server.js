@@ -8,7 +8,6 @@
 
 
 var gulp = require('gulp');
-
 var nodemon = require('gulp-nodemon');
 
 gulp.task('dev:server', function() {      //  task(1,2)  1.  name of task  2.  function to pass Object to nodemon
@@ -17,7 +16,11 @@ gulp.task('dev:server', function() {      //  task(1,2)  1.  name of task  2.  f
 
         script:  'server.js',       //  <<  gulp dev:server BOOTS up app by running THIS SCRIPT
         ext: 'js',
-        ignore: ['ng*', 'gulp*', 'assets*']   //  IGNORE:  ng files, gulp files and assets files
+        ignore: ['ng*', 'gulp*', 'assets*']   //  IGNORE:  ng files, gulp files and assets files  <<  exclude non-Node files
 
     })
 });
+
+//  PROCESSES -- INSTRUCTIONS:
+
+//  run gulp dev:server      (gulp-nodemon >>  restart Web server if any changes to files ending in .js)

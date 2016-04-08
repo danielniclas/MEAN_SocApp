@@ -6,41 +6,20 @@
 var User = require('./user');       //  Require mongoose Data Schema -- must be on top
 
 var express = require('express');
-
 var jwt = require('jwt-simple');
-var _ = require('lodash');              //  Lo-Dash:  utility library to perform common JS tasks
-
+var _ = require('lodash');
 var app = express();
-
 var bcrypt = require('bcrypt');
-
 app.use(require('body-parser').json());
 
 
-var users = [{username: 'Kooster', password: '$2a$10$LFQaw9sLjyfc818AoPKUYuh2TGCPstGumsUmdKbGkl85uN2JcQu0a'}];  //  Bcrypt HASH
 var secretKey = 'supersecretkey';
 
-
-//  Helper Functions:
-function findUserByUsername(username) {
-
-    return _.find(users, {username:username});   //  _.find(1, 2)  1.  [ARRAY] users  2.  {username OBJECT} :: search [ARRAY] for username
-}
-
-function validateUser(user, password, cb) {
-
-    bcrypt.compare(password, user.password, cb);     //  compare(1,2,3)  --  1. password,  2.  HASH, 3.  Call Back Function
-
-}
-
-
-//  Server to generate and decode tokens:
 
 
 //  LOOK INTO MONGO FOR CORRESPONDING USERS:
 
 app.post('/session', function(req, res, next){
-
 
     User.findOne({username: req.body.username})     //  Mongoose findOne(1,2) METHOD
 
@@ -57,24 +36,14 @@ app.post('/session', function(req, res, next){
             res.json(token)
         })
     });
-
-
-    //var user = findUserByUsername(req.body.username);       //  findUserByUsername(1)   1.  username
-    //
-    //validateUser(user, req.body.password, function(err, valid) {   //  function (1,2,3)  --  1. password,  2.  HASH, 3.  Call Back Function
-    //                                                               //  CallBack function makes it asynchronous
-    //
-    //    if (err || !valid) {return res.send(401)}
-    //
-    //    var token = jwt.encode({username: user.username}, secretKey);
-    //    res.json(token)
-    //
-    //})
 });
 
 //  curl POST:
 //  > curl -X POST -d '{"username": "Kooster", "password":"pass"}' -H "Content-Type:  application/json" localhost:3000/session
 //  Get this JWT:  eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6Iktvb3N0ZXIifQ.JdG-TLrzlK0zhBSce_kOLRoOFeRLqxovzpmZNUddc9M
+
+
+
 
 //  To GET DECRYPTED TOKEN:
 app.get('/user', function (req, res) {
@@ -87,11 +56,6 @@ app.get('/user', function (req, res) {
         res.json(user)
 
     });
-
-    //var user = jwt.decode(token, secretKey);
-    ////  TODO:  pull user info from database
-    //res.json(user)
-
 });
 
 //  curl GET:
@@ -117,7 +81,6 @@ app.post('/user', function(req, res, next) {
 
 //  To create a user with CURL:
 //  > curl -X POST -d '{"username": "Kooster", "password": "pass"}' -H "Content-Type: application/json" localhost:3000/user
-
 
 });
 
