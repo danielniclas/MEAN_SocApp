@@ -3,15 +3,14 @@
  */
 
 
-//  SERVER TO GENERATE AND DECODE TOKENSß
+//  SERVER TO GENERATE AND DECODE TOKENS
 
 
 var express = require('express');
 var jwt = require('jwt-simple');
-
 var app = express();
-
 app.use(require('body-parser').json());
+
 
 var secretKey = 'supersecretkey';
 

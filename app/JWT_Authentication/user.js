@@ -13,7 +13,8 @@ mongoose.connect('mongodb://localhost/auth_demo', function () {
 
 var user = mongoose.Schema({
     username: String,
-    password: {Type: String, select: false}
+    password: {type: String, select: false}
+    //password: String
 });
 
 

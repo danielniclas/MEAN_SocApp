@@ -2,6 +2,13 @@
  * Created by danielniclas on 4/7/16.
  */
 
+
+
+//  Route:  /user       1.  Create new User OBJECT (Mongoose)  2. Hash the password with BCRYPT  3.  Store the User OBJECT in the DB  {username, password-HASH}
+//  Route:  /session    1.  User login:  username, password  2.  User.findOne() Search DB for {username, password-HASH}  3.  BCRYPT.compare(entered password, HASH password)  4.  generate JWT TOKEN - signed by the 'key'
+//  Route: /get         1.  GET token  2. decode token  3.  Get user data from DB
+
+
 var User = require('./_user');       //  Require mongoose Data Schema -- must be on top
 
 var express = require('express');
@@ -42,6 +49,9 @@ app.post('/user', function(req, res, next){
 
 
 
+//  Validate password
+//  WARNING: Entering multiple users of the same name in this example will cause /session to crash
+
 app.post('/session', function(req, res, next){
 
     User.findOne({username: req.body.username}, function (err, user){           //  session is now looking into MONGO  User.findOne()
@@ -69,7 +79,7 @@ app.post('/session', function(req, res, next){
 //  > curl -X POST -d '{"username": "Mookors", "password":"sass"}' -H "Content-Type:  application/json" localhost:3000/session
 
 
-
+//  Pull user info from DB:
 
 app.get('/user', function(req,res){
 
@@ -81,8 +91,8 @@ app.get('/user', function(req,res){
 });
 
 //  curl GET:
-//  > curl -H "X-Auth: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6Iktvb3N0ZXIifQ.JdG-TLrzlK0zhBSce_kOLRoOFeRLqxovzpmZNUddc9M" localhost:3000/user
-//  Get the decrypted token:  {"username":"Kooster"}
+//  > curl -H "X-Auth: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6Ik1vb2tvcnMifQ.mS5h5t_bDegkkkZLNZGcxtUNHhHwNbu0aunQm4JvjhU" localhost:3000/user
+//  Get the decrypted token:  {"username":"Mookers"}
 
 
 
