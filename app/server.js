@@ -20,7 +20,7 @@ app.use(bodyParser.json());
 //  Parameter 1:  API PATHS!  Entered in as URLs and USED by ANGULAR << in controller leave out that part of the path >> router.get('/', function (req, res, next)
 
 app.use('/api/posts', require('./controllers/api/posts'));  //  CONTROLLERS:  GET & POSTS >> .use(1,2)  1.  NAMESPACE the routes (ENDPOINT:: /api/posts) 2.  Required file
-app.use('/', require('./controllers/static'));              //  CONTROLLERS >>  STATIC CONTENT:  Shell Page: layouts/posts.html, app.css, app.js
+app.use('/', require('./controllers/static'));              //  CONTROLLERS >>  STATIC CONTENT:  Shell Page: layouts/_posts2.html, app.css, app.js
 
 
 
@@ -34,4 +34,4 @@ app.listen(3000, function() {
 
 //  server.js  <<  MIDDLEWARE  app.use()  for GET/POST and STATIC CONTENT  <<  STARTING POINT FOR APP!!!!!!
 //  posts.js   <<  router.get() and router.post()  <<  INTERFACE WITH DB
-//  static.js  <<  router.get() for layouts/posts.html and router.use() for STATIC CONTENT
+//  static.js  <<  router.get() for layouts/_posts2.html and router.use() for STATIC CONTENT

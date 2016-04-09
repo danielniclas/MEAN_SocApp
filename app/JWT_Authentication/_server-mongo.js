@@ -3,6 +3,12 @@
  */
 
 
+//  AUTHENTICATION API -- with express, jwt-simple, bcrypt and body-parser
+
+//  Create user:  provide username and password (string) >> bcrypt.hash() >> store in DB:  username and password (HASH)
+//  Session:  Send username and password (string) >> bcrypt.comppare() >> compare password (string) with password (HASH)  >>  create and respond with JWT TOKEN
+//  GET user data:  Access JWT TOKEN from Request Header and respond with USER DATA
+
 
 //  Route:  /user       1.  Create new User OBJECT (Mongoose)  2. Hash the password with BCRYPT  3.  Store the User OBJECT in the DB  {username, password-HASH}
 //  Route:  /session    1.  User login:  username, password  2.  User.findOne() Search DB for {username, password-HASH}  3.  BCRYPT.compare(entered password, HASH password)  4.  generate JWT TOKEN - signed by the 'key'

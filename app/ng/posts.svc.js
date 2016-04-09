@@ -3,7 +3,7 @@
  */
 
 
-angular.module('app');      //  GETTER MODULE
+var app = angular.module('app');      //  GETTER MODULE
 
 
 //  Service:

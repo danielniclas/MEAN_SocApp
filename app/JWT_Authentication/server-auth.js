@@ -2,11 +2,17 @@
  * Created by danielniclas on 1/5/16.
  */
 
+//  AUTHENTICATION API -- with express, jwt-simple, bcrypt and body-parser
 
-//  Route:  /user       1.  Create new User OBJECT (Mongoose)  2. Hash the password with BCRYPT  3.  Store the User OBJECT in the DB  {username, password-HASH}
-//  Route:  /session    1.  User login:  username, password  2.  User.findOne() Search DB for {username, password-HASH}  3.  BCRYPT.compare(entered password, HASH password)  4.  generate JWT TOKEN - signed by the 'key'
-//  Route: /get         1.  GET token  2. decode token  3.  Get user data from DB
 
+//  Create user:  provide username and password (string) >> bcrypt.hash() >> store in DB:  username and password (HASH)
+//  Session:  Send username and password (string) >> bcrypt.comppare() >> compare password (string) with password (HASH)  >>  create and respond with JWT TOKEN
+//  GET user data:  Access JWT TOKEN from Request Header and respond with USER DATA
+
+
+//  Route:  POST /user       1.  Create new User OBJECT (Mongoose)  2. Hash the password with BCRYPT  3.  Store the User OBJECT in the DB  {username, password-HASH}
+//  Route:  POST /session    1.  User login:  username, password  2.  User.findOne() Search DB for {username, password-HASH}  3.  BCRYPT.compare(entered password, HASH password)  4.  generate JWT TOKEN - signed by the 'key'
+//  Route:  GET  /user       1.  GET token  2. decode token  3.  Get user data from DB
 
 
 var express = require('express');
@@ -19,7 +25,13 @@ app.use(require('body-parser').json());
 
 var secretKey = 'supersecretkey';
 
-app.post('/session', function (req, res, next) {
+
+
+//  Validate password
+//  WARNING: Entering multiple users of the same name in this example will cause /session to crash
+
+
+app.post('/session', function (req, res, next) {        //  POST username and password >>  compare password with HASH password >>  generate TOKEN
     var username = req.body.username;
     User.findOne({username: username})
         .select('password')
@@ -30,7 +42,7 @@ app.post('/session', function (req, res, next) {
                 if (err) { return next(err) }
                 if (!valid) { return res.sendStatus(401) }
                 var token = jwt.encode({username: username}, secretKey);
-                res.json(token)
+                res.json(token);                                             //  <<  CREATE and RESPOND with JWT TOKEN
             })
         })
 });
@@ -45,15 +57,15 @@ app.post('/session', function (req, res, next) {
 
 
 
-//  To GET DECRYPTED TOKEN:
+//  Use TOKEN to GET user data from DB:
 app.get('/user', function (req, res) {
 
-    var token = req.headers['x-auth'];          //  Header:  X-auth   --  have to add x- to the front
+    var token = req.headers['x-auth'];                              //  Header >>  carries a TOKEN
 
-    var auth = jwt.decode(token, secretKey);
-    User.findOne({username: auth.username}, function(err, user) {
+    var auth = jwt.decode(token, secretKey);                        //  Decode the TOKEN
+    User.findOne({username: auth.username}, function(err, user) {   //  Used decoded TOKEN to get user Data from DB
 
-        res.json(user)
+        res.json(user);                                              //  Respond with USER DATA
 
     });
 });
@@ -75,7 +87,7 @@ app.post('/user', function(req, res, next){
 
     console.log("Password: " + req.body.password);
 
-    var user = new User({username: req.body.username});             //  CREATING NEW USER:   with a bcrypt-generated HASH (for the password)
+    var user = new User({username: req.body.username});             //  >>  CREATING NEW USER + bcrypt-generated HASH (for the password)
     bcrypt.hash(req.body.password, 10, function (err, hash){
 
         user.password = hash;                   //  Add hash to password property in the USER object

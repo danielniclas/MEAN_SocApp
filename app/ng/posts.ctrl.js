@@ -2,7 +2,7 @@
  * Created by danielniclas on 1/4/16.
  */
 
-angular.module('app');          //  GETTER MODULE
+var app = angular.module('app');          //  GETTER MODULE
 
 app.controller('PostsCtrl', function ($scope, PostsSvc) {
 
