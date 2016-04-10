@@ -8,6 +8,17 @@
 var express = require('express');
 var router = express.Router();                      //  Use Express Router OBJECT - Router Object acts like an App object
 
+
+
+
+router.use(express.static(__dirname + '/../assets'));   //  Express built-in middleware to SERVE STATIC ASSETS (stored in 'assets' directory)
+                                                        //  __directory is a Node variable that points to the current file's directory (controllers)
+                                                        //  Static Assets:  app.js and app.css  (and also _ap.js)
+
+router.use(express.static(__dirname + '/../templates'));
+
+
+
 router.get('/', function (req, res) {                //  1.  GET Endpoint:  '/'  (This is the Landing Page - Shell Page)
 
     //res.sendfile('layouts/_posts2.html');
@@ -18,13 +29,6 @@ router.get('/', function (req, res) {                //  1.  GET Endpoint:  '/' 
     // res.render('_posts2.html')
 
 });
-
-
-router.use(express.static(__dirname + '/../assets'));   //  Express built-in middleware to SERVE STATIC ASSETS (stored in 'assets' directory)
-                                                        //  __directory is a Node variable that points to the current file's directory (controllers)
-                                                        //  Static Assets:  app.js and app.css  (and also _ap.js)
-
-router.use(express.static(__dirname + '/../templates'));
 
 
 

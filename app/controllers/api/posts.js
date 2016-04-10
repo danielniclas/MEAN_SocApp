@@ -9,7 +9,7 @@ var router = require('express').Router();           //  Use Express Router OBJEC
 //  EXPRESS  --  API CONTROLLER:
 //  GET API Endpoint:  /api/posts
 
-router.get('/', function (req, res, next) {       //  Parameter 1:  URL path that will respond with res.json
+router.get('/', function (req, res, next) {       //  Parameter 1:  URL path that will respond with res.json  <<  This is the [router} OBJECT that is EXPORTED with module.exports (below)
     //  stubbed json at:  http://localhost:3000/api/posts
     //  Parameter 2:  callBack function
 
@@ -49,4 +49,4 @@ router.post('/', function(req, res, next){        //  Parameter 1:  URL path tha
     })
 });
 
-module.exports = router;        //  EXPORTED as router OBJECT >>  to server-auth.js
+module.exports = router;        //  EXPORTED as router OBJECT >>  to server.js

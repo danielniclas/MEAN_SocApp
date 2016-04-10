@@ -9,6 +9,10 @@ var express = require('express');
 var bodyParser = require('body-parser');
 
 var app = express();
+
+
+
+
 app.use(bodyParser.json());
 
 
@@ -17,10 +21,22 @@ app.use(bodyParser.json());
 //  pg 61 --  MIDDLEWARE  app.use()
 //  require(1. name for router, 2. routers):  ENDPOINTS  >>  These files EXPORT the Router OBJECT
 
-//  Parameter 1:  API PATHS!  Entered in as URLs and USED by ANGULAR << in controller leave out that part of the path >> router.get('/', function (req, res, next)
 
+//  MOUNT CONTROLLERS (Middleware):      <<  EndPoints called by the Angular Services
+//  Made available here with:  module.exports = router;
+
+
+                                                            //  Parameter 1:  API PATHS!  Entered in as URLs and USED by ANGULAR << in controller leave out that part of the path >> router.get('/', function (req, res, next)
 app.use('/api/posts', require('./controllers/api/posts'));  //  CONTROLLERS:  GET & POSTS >> .use(1,2)  1.  NAMESPACE the routes (ENDPOINT:: /api/posts) 2.  Required file
 app.use('/', require('./controllers/static'));              //  CONTROLLERS >>  STATIC CONTENT:  Shell Page: layouts/_posts2.html, app.css, app.js
+
+
+app.use('/api/sessions', require('./controllers/api/sessions'));
+app.use('/api/users', require('./controllers/api/users'));
+
+
+//app.use(require('./controllers'));
+
 
 
 

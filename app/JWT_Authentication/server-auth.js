@@ -108,7 +108,6 @@ app.post('/user', function(req, res, next){
 
 
 
-
 app.listen(3000, function() {
     console.log('The Node server is listening on 3000 -> JWT server-auth.js Node App')
 });
