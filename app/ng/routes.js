@@ -6,6 +6,8 @@
 var app = angular.module('app');
 
 app.config(function($routeProvider){
+
+
     $routeProvider
         .when('/', {
             controller: 'PostsCtrl',
@@ -18,5 +20,9 @@ app.config(function($routeProvider){
         .when('/login', {
             controller: 'LoginCtrl',
             templateUrl: 'login.html'
+        })
+        .when('/register', {
+            controller: 'RegistrationCtrl',
+            templateUrl: 'register.html'
         })
 });

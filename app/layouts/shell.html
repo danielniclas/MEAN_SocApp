@@ -14,7 +14,7 @@
 </head>
 
 
-<body ng-app="app">
+<body ng-app="app" ng-controller="ApplicationCtrl">
 
 <nav class="navbar navbar-default">
     <div class="container">
@@ -23,6 +23,12 @@
             <li><a href ="/#/register">Register</a></li>
             <li><a href ="/#/login">Login</a></li>
         </ul>
+
+        <p ng-if="currentUser" class="navbar-text navbar-right" ng-cloak>
+            Signed in as {{currentUser.username}}
+        </p>
+
+
     </div>
 </nav>
 

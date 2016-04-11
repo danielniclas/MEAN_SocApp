@@ -16,15 +16,20 @@ var app = express();
 app.use(bodyParser.json());
 
 
-// app.use(require('./controllers/api/posts'));             //  This file using the Express Router OBJECT  --  Get/Post Endpoints
+//  This file using the Express Router OBJECT  --  Get/Post Endpoints
+//  ALL THE require() ENDPOINTS are made available with:  module.exports = router;
+
+//  router.get()
+//  router.post()
 
 //  pg 61 --  MIDDLEWARE  app.use()
 //  require(1. name for router, 2. routers):  ENDPOINTS  >>  These files EXPORT the Router OBJECT
 
-
 //  MOUNT CONTROLLERS (Middleware):      <<  EndPoints called by the Angular Services
 //  Made available here with:  module.exports = router;
 
+
+app.use(require('./auth'));          //  Use JWT to get username information  >> used in: /controllers/api/posts.js
 
                                                             //  Parameter 1:  API PATHS!  Entered in as URLs and USED by ANGULAR << in controller leave out that part of the path >> router.get('/', function (req, res, next)
 app.use('/api/posts', require('./controllers/api/posts'));  //  CONTROLLERS:  GET & POSTS >> .use(1,2)  1.  NAMESPACE the routes (ENDPOINT:: /api/posts) 2.  Required file

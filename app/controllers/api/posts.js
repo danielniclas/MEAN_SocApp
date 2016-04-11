@@ -28,15 +28,16 @@ router.get('/', function (req, res, next) {       //  Parameter 1:  URL path tha
 
 //  POST API Endpoint:  /api/posts      --  THIS WILL ADD NEW OBJECT TO MONGO DB !!!
 
-router.post('/', function(req, res, next){        //  Parameter 1:  URL path that will respond with post.save
+router.post('/', function(req, res, next){              //  Parameter 1:  URL path that will respond with post.save
 
     var post = new Post({                               //  CREATE POST OBJECT - Constructor Function (MONGOOSE Post Object)
 
-        username: req.body.username,                    //  req.body (body of req OBJECT) .username and .body
+        //username: req.body.username,                    //  req.body (body of req OBJECT) .username and .body
         body: req.body.body
 
-
     });
+
+    post.username = req.auth.username;       //  <<<  using JWT to get username  <<  see auth.js in ROOT
 
     post.save(function (err, post) {                    //  SAVE MONGOOSE Post Model  -- Save OBJECT to MONGO
         if (err) {

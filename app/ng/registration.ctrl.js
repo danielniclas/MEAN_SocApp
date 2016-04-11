@@ -1,15 +1,16 @@
 /**
- * Created by danielniclas on 4/8/16.
+ * Created by danielniclas on 4/10/16.
  */
+
 
 
 var app = angular.module('app');
 
-app.controller('LoginCtrl', function($scope,UserSvc){       //  CHILD CONTROLLER to ApplcationCtrl
+app.controller('RegistrationCtrl', function($scope,UserSvc){       //  CHILD CONTROLLER to ApplcationCtrl
 
-    $scope.login = function (username, password){   //  Function exposed to Login Form
+    $scope.register = function (username, password){        //  function exposed to Register Form
 
-        UserSvc.login(username,password)           //  login.ctrl.js  >>  UserSvc.login()  >>>> returns USER JSON <<<<<
+        UserSvc.createUser(username,password)           //  login.ctrl.js  >>  UserSvc.login()  >>>> returns USER JSON <<<<<
 
             .then(function(response){
 
