@@ -18,6 +18,23 @@ app.controller('LoginCtrl', function($scope,UserSvc){       //  CHILD CONTROLLER
                                                          //  $emit is an ANGULAR EVENT
 
                 //console.log(user);                   //  DISPLAY USER  <<  This function displays data.  Does not RETURN an evaluated expression
+
+            });
+
+
+
+
+        setTimeout(interceptWatcher, 0);
+
+        function interceptWatcher () {
+            $scope.$watch('$rootScope.intercept', function (newValue, oldValue) {
+
+                console.log("Watcher triggered");
+                $scope.unauthorized = true;
+
             })
-    }
+        }
+
+    };
+
 });

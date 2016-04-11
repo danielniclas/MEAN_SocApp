@@ -15,7 +15,13 @@
             <input class="form-control" type="password" ng-model="password">
         </div>
 
-        <input class="btn btn-success btn-lg btn-block" type="submit" value="Login">
+        <!--<input class="btn btn-success btn-lg btn-block {{show}}-ring" ng-class="intercept" type="submit" value="Login">-->
+        <input class="btn btn-lg btn-block btn-success {{unauthorized}}-ring" type="submit" value="Login">
+
+        Test login:  username:  koob  password:  koot
+
+        <div ng-show="unauthorized"> TEST SHOW - $scope.unauthorized </div>
+        <div ng-show="intercept"> TEST SHOW - $rootScope.unauthorizedIntercept:  {{unauthorizedIntercept}} </div>
 
     </form>
 </div>
